@@ -10,7 +10,8 @@ Every file in the project will start with the version number of the game as disp
 ## README.md and contents file
 Each directory will have a README.md describing the general contents of directories of the directories
 * modding/: Describes how to get started with actually installing and creating mods
-* data/: Describes different data elements and mechanics within the contents files
+* data/: Describes different data files within the contents files.
+* mechanics/: A set of guides on various aspects of the mechanics within the game.
 
 ## Contributing
 I am open to anyone contributing to this project as a knowledgebase for anyone to use. Feel free to make pull requests to this project as you like, I just ask that you follow the convention set forward here.
