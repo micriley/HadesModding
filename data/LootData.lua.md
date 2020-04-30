@@ -105,5 +105,74 @@ ZeusUpgrade =
 These values set some boon specific information, such as the portrait of the speaker, and a flavortext subtitle lint that can appear on the upgrade select screen zeus has a unique spawn sound as well.
 ## God Voice Line information
 The next fields are voiceline structures. See voiceline.md for more information for how these are structured. TODO: Create voiceline.md
-* ```DuoPickupTextLineSets``` define voicelines that play when a duo boon becomes available.
-* ```PriorityPickupTextLineSets``` define voicelines that are contextual in nature and should be played before generic lines. ```PickupTextLineSets``` are generic fallback lines. ```BoughtTextlines``` are voicelines to play when the bought from the charon shop. ```RejectionTextLines``` are for when you spurn a god in the devotion test challenge room. ```RejectionVoiceLines``` are Zagerus follow up text lines. ```MakeupTextLines``` are for when the devotion challenge is completed. ```GiftTextLineSets``` are for when the character is given a nectar/gift. ```GiftGivenVoiceLines``` are for follow up
+```DuoPickupTextLineSets``` define voicelines that play when a duo boon becomes available.
+```PriorityPickupTextLineSets``` define voicelines that are contextual in nature and should be played before generic lines. ```PickupTextLineSets``` are generic fallback lines.
+```BoughtTextlines``` are voicelines to play when the bought from the charon shop.
+```RejectionTextLines``` are for when you spurn a god in the devotion test challenge room. ```RejectionVoiceLines``` are Zagerus follow up text lines. ```MakeupTextLines``` are for when the devotion challenge is completed.
+```GiftTextLineSets``` are for when the character is given a nectar/gift. ```GiftGivenVoiceLines``` are for Zagreus follow up.
+```ShoutActivtionSound``` and ``ShoutVoiceLines``` are voicelines and sound for the major call effect.
+```SwapUpgradePickedVoiceLines``` are Zagreus follow up lines for when a boon to exchanged into that particular gods boon. For instance, exchange the ares weapon boon for the zeus weapon boon instead.
+
+## Chaos / Trail upgrades
+While all the gods have identical structure, choas' loot data is pretty different.
+```
+TrialUpgrade =
+	{
+		InheritFrom = { "BaseLoot", "BaseSoundPackage" },
+		GodLoot = false,
+		CanReceiveGift = true,
+		AlwaysShowDefaultUseText = true,
+		Weight = 10,
+		Icon = "BoonSymbolChaos",
+		DoorIcon = "BoonSymbolChaosIsometric",
+		ConfirmSound = "/SFX/Menu Sounds/ChaosBoonConfirm",
+		Color = { 100, 25, 255, 255 },
+		LightingColor = { 100, 25, 255, 255 },
+		LootColor = { 100, 25, 255, 255},
+		SubtitleColor = {1.000, 0.973, 0.733, 1.0},
+		EventEndSound = "/Leftovers/Menu Sounds/SkillUpgradeConfirm",
+		-- UpgradeSelectedSound = "/Leftovers/Menu Sounds/SkillUpgradeConfirm",
+
+		TransformingTraits = true,
+		PermanentTraits = { "ChaosBlessingMeleeTrait", "ChaosBlessingRangedTrait", "ChaosBlessingAmmoTrait", "ChaosBlessingMaxHealthTrait", "ChaosBlessingBoonRarityTrait", "ChaosBlessingMoneyTrait", "ChaosBlessingMetapointTrait", "ChaosBlessingSecondaryTrait", "ChaosBlessingDashAttackTrait", "ChaosBlessingExtraChanceTrait" },
+		TemporaryTraits = { "ChaosCurseNoMoneyTrait", "ChaosCurseAmmoUseDelayTrait", "ChaosCursePrimaryAttackTrait", "ChaosCurseSecondaryAttackTrait", "ChaosCurseCastAttackTrait", "ChaosCurseDeathWeaponTrait", "ChaosCurseHiddenRoomReward", "ChaosCurseDamageTrait", "ChaosCurseTrapDamageTrait", "ChaosCurseHealthTrait", "ChaosCurseMoveSpeedTrait", "ChaosCurseSpawnTrait", },
+```
+Chaos instead has a set of permanent traits (bonuses), and temporary traits (penalties). Each of these sets is picked from at random and used to generate chaos trait.
+```
+TrialUpgrade =
+	{
+		PickupFunctionName = "ChaosInteractPresentation",
+		PickupGlobalVoiceLines = "ChaosBoonUsedVoiceLines",
+```
+Chaos also has a special function definition for an animation to play when the boon is picked up. This is the only instance of it's use in the game.
+## Poms of Power
+```
+StackUpgrade =
+	{
+		InheritFrom = { "BaseSoundPackage" },
+		UsePromptOffsetX = 80,
+		UsePromptOffsetY = 48,
+
+		CanReceiveGift = false,
+
+		PurchaseText = "Shop_UseStackUpgrade",
+		UseText = "UseStackUpgrade",
+		DebugOnly = true,
+		GodLoot = false,
+		Weight = 10,
+		Icon = "StackUpgradeSymbol",
+		Color = { 255, 255, 255, 255 },
+		LightingColor = {255, 255, 255, 255},
+		LootColor = {255, 255, 255, 255},
+		BoonGetColor = {255, 0, 20, 255},
+		StackOnly = true,
+		MenuTitle = "StackUpgradeChoiceMenu_Title",
+		SpawnSound = "/SFX/PomegranatePowerUpDrop",
+```
+Poms of power boon definitions are similar, but with a `StackOnly` boolean that is used to ensure that only boons picked up can be considered for leveling.
+## RewardStoreData
+TODO: Figure how what `RewardStoreData` controls.
+## Other Notes:
+* Some linked boons have a `PriorityChance` field. This is a special field to denote the upgrade as priority. It has a special chance to be rolled into the upgrade pool before other upgrade decisions can be made. The game uses this mechanic to set the 'curse' upgrades as a 50 percent chance priority, helping to ensure more runs can have access to the affliction related boons. 
+
+* Chaos has `BoughtTextLines` even though the charon shop generation has no chance to generate chaos boons.
